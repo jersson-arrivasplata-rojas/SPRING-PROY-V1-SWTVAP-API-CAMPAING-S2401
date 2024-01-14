@@ -34,7 +34,7 @@ public class NewsletterSubscriptionControllerImpl implements NewsletterSubscript
                 });
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Mono<NewsletterSubscriptionResponse> getNewsletterSubscriptionById(@PathVariable Long id) {
         return newsletterSubscriptionService.getNewsletterSubscriptionById(id)
@@ -45,7 +45,7 @@ public class NewsletterSubscriptionControllerImpl implements NewsletterSubscript
                 });
     }
 
-    @PostMapping
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<NewsletterSubscriptionResponse> createNewsletterSubscription(@RequestBody NewsletterSubscriptionRequest newsletterSubscriptionRequest) {
         NewsletterSubscription newsletterSubscription = newsletterSubscriptionMapper.newsletterSubscriptionRequestToNewsletterSubscription(newsletterSubscriptionRequest);
@@ -57,7 +57,7 @@ public class NewsletterSubscriptionControllerImpl implements NewsletterSubscript
                 });
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Mono<NewsletterSubscriptionResponse> updateNewsletterSubscription(@PathVariable Long id, @RequestBody NewsletterSubscriptionRequest newsletterSubscriptionRequest) {
         NewsletterSubscription newsletterSubscription = newsletterSubscriptionMapper.newsletterSubscriptionRequestToNewsletterSubscription(newsletterSubscriptionRequest);
@@ -69,7 +69,7 @@ public class NewsletterSubscriptionControllerImpl implements NewsletterSubscript
                 });
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<Void> deleteNewsletterSubscription(@PathVariable Long id) {
         return newsletterSubscriptionService.deleteNewsletterSubscriptionById(id);
