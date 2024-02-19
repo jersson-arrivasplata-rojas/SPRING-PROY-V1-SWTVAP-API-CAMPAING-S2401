@@ -10,4 +10,5 @@ public class AnalyticRequest {
     private Long analyticId;
     private String visitedPage;
     private LocalDate visitedDate;
+    private LocalDate deletedAt;
 }

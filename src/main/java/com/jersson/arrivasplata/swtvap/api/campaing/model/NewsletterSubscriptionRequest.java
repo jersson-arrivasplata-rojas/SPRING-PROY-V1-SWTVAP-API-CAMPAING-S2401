@@ -12,4 +12,5 @@ public class NewsletterSubscriptionRequest {
     private String email;
     private LocalDate subscribedAt;
     private Status status;
+    private LocalDate deletedAt;
 }

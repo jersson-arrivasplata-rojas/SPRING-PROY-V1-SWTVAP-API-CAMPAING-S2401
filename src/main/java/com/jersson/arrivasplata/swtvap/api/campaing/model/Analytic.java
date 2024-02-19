@@ -20,4 +20,7 @@ public class Analytic {
 
     @Column(name = "visited_date")
     private LocalDate visitedDate;
+
+    @Column(name = "deleted_at")
+    private LocalDate deletedAt;
 }

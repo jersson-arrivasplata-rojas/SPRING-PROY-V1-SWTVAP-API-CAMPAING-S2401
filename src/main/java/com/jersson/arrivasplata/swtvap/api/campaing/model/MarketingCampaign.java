@@ -26,4 +26,7 @@ public class MarketingCampaign {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "deleted_at")
+    private LocalDate deletedAt;
 }

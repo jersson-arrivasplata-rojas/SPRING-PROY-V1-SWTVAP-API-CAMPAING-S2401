@@ -24,4 +24,7 @@ public class NewsletterSubscription {
 
     @Enumerated(EnumType.ORDINAL)
     private Status status;
+
+    @Column(name = "deleted_at")
+    private LocalDate deletedAt;
 }

@@ -12,4 +12,5 @@ public class MarketingCampaignRequest {
     private LocalDate startDate;
     private LocalDate endDate;
     private String description;
+    private LocalDate deletedAt;
 }
