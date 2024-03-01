@@ -2,8 +2,10 @@ package com.jersson.arrivasplata.swtvap.api.campaing.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.campaing.business.service.NewsletterSubscriptionService;
 import com.jersson.arrivasplata.swtvap.api.campaing.exception.CustomException;
+import com.jersson.arrivasplata.swtvap.api.campaing.model.MarketingCampaign;
 import com.jersson.arrivasplata.swtvap.api.campaing.model.NewsletterSubscription;
 import com.jersson.arrivasplata.swtvap.api.campaing.repository.NewsletterSubscriptionRepository;
+import com.jersson.arrivasplata.swtvap.api.campaing.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -47,13 +49,15 @@ public class NewsletterSubscriptionServiceImpl implements NewsletterSubscription
 
     public Mono<Void> deleteNewsletterSubscriptionById(Long id) {
         // Lógica para eliminar un newsletterSubscription
-        Optional<NewsletterSubscription> newsletterSubscription = newsletterSubscriptionRepository.findById(id);
-        if (!newsletterSubscription.isPresent()) {
+        Optional<NewsletterSubscription> newsletterSubscriptionOptional = newsletterSubscriptionRepository.findById(id);
+        if (!newsletterSubscriptionOptional.isPresent()) {
             throw new CustomException("NewsletterSubscription not found with id: " + id);
         }
         // Resto de la lógica para eliminar un newsletterSubscription
 
-        newsletterSubscriptionRepository.deleteById(id);
+        NewsletterSubscription newsletterSubscription = newsletterSubscriptionOptional.get();
+        newsletterSubscription.setDeletedAt(Common.builder().build().getCurrentDate());
+        newsletterSubscriptionRepository.save(newsletterSubscription);
 
         return Mono.empty();
     }

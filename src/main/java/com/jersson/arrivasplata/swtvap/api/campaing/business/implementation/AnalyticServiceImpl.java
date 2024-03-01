@@ -1,9 +1,11 @@
 package com.jersson.arrivasplata.swtvap.api.campaing.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.campaing.business.service.AnalyticService;
+import com.jersson.arrivasplata.swtvap.api.campaing.enums.Status;
 import com.jersson.arrivasplata.swtvap.api.campaing.exception.CustomException;
 import com.jersson.arrivasplata.swtvap.api.campaing.model.Analytic;
 import com.jersson.arrivasplata.swtvap.api.campaing.repository.AnalyticRepository;
+import com.jersson.arrivasplata.swtvap.api.campaing.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -47,13 +49,14 @@ public class AnalyticServiceImpl implements AnalyticService {
 
     public Mono<Void> deleteAnalyticById(Long id) {
         // Lógica para eliminar un analytic
-        Optional<Analytic> analytic = analyticRepository.findById(id);
-        if (!analytic.isPresent()) {
+        Optional<Analytic> analyticOptional = analyticRepository.findById(id);
+        if (!analyticOptional.isPresent()) {
             throw new CustomException("Analytic not found with id: " + id);
         }
         // Resto de la lógica para eliminar un analytic
-
-        analyticRepository.deleteById(id);
+        Analytic analytic = analyticOptional.get();
+        analytic.setDeletedAt(Common.builder().build().getCurrentDate());
+        analyticRepository.save(analytic);
 
         return Mono.empty();
     }

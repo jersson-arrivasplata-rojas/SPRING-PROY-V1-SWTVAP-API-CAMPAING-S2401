@@ -2,8 +2,10 @@ package com.jersson.arrivasplata.swtvap.api.campaing.business.implementation;
 
 import com.jersson.arrivasplata.swtvap.api.campaing.business.service.MarketingCampaignService;
 import com.jersson.arrivasplata.swtvap.api.campaing.exception.CustomException;
+import com.jersson.arrivasplata.swtvap.api.campaing.model.Analytic;
 import com.jersson.arrivasplata.swtvap.api.campaing.model.MarketingCampaign;
 import com.jersson.arrivasplata.swtvap.api.campaing.repository.MarketingCampaignRepository;
+import com.jersson.arrivasplata.swtvap.api.campaing.util.Common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -47,13 +49,14 @@ public class MarketingCampaignServiceImpl implements MarketingCampaignService {
 
     public Mono<Void> deleteMarketingCampaignById(Long id) {
         // Lógica para eliminar un marketingCampaign
-        Optional<MarketingCampaign> marketingCampaign = marketingCampaignRepository.findById(id);
-        if (!marketingCampaign.isPresent()) {
+        Optional<MarketingCampaign> marketingCampaignOptional = marketingCampaignRepository.findById(id);
+        if (!marketingCampaignOptional.isPresent()) {
             throw new CustomException("MarketingCampaign not found with id: " + id);
         }
         // Resto de la lógica para eliminar un marketingCampaign
-
-        marketingCampaignRepository.deleteById(id);
+        MarketingCampaign marketingCampaign = marketingCampaignOptional.get();
+        marketingCampaign.setDeletedAt(Common.builder().build().getCurrentDate());
+        marketingCampaignRepository.save(marketingCampaign);
 
         return Mono.empty();
     }
